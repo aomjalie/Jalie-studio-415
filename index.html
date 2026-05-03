@@ -1,0 +1,395 @@
+```html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparkling - Premium Bio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Mali:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* โทนสีเรียบหรู + พาสเทล */
+            --bg-page: #FCFBF9; /* ครีมอ่อนๆ ดูแพง */
+            --bg-card: #FFFFFF;
+            --text-main: #4A4040;
+            --text-muted: #8A7B7D;
+            
+            /* สีพาสเทลสำหรับลูกเล่น */
+            --pastel-pink: #FFDDE6;
+            --pastel-blue: #D6EFFF;
+            --pastel-yellow: #FFF4C2;
+            
+            /* เงาพรีเมียม (Layered Soft Shadow) */
+            --shadow-premium: 0 20px 40px rgba(74, 64, 64, 0.05), 0 1px 3px rgba(0,0,0,0.02);
+            --shadow-hover: 0 25px 50px rgba(74, 64, 64, 0.08), 0 5px 15px rgba(255, 221, 230, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Background Floating Stars --- */
+        .bg-star {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 6s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            100% { transform: translateY(-20px) rotate(15deg) scale(1.05); }
+        }
+
+        /* --- Main Layout Container --- */
+        .app-container {
+            width: 100%;
+            max-width: 500px; /* ขยายให้พอดีขึ้น */
+            padding: 50px 25px 80px 25px; /* เพิ่ม Spacing บน-ล่าง ให้ดูโล่ง */
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* เพิ่มระยะห่างระหว่างบล็อก (Spacing) */
+        }
+
+        /* =========================================
+           BLOCK 1: Premium Header
+        ========================================= */
+        .block-1 {
+            background-color: var(--bg-card);
+            border-radius: 40px; /* โค้งมนละมุน */
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(255,255,255,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .block-1:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ลูกเชอร์รี่กระจายแบบสุ่ม */
+        .scattered-cherry {
+            position: absolute;
+            opacity: 0.6;
+            animation: bounce 4s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+        .sc-1 { top: 15%; left: 10%; font-size: 1.2rem; transform: rotate(-15deg); animation-delay: 0.2s; }
+        .sc-2 { bottom: 15%; right: 12%; font-size: 1.5rem; transform: rotate(20deg); animation-delay: 0.5s; }
+        .sc-3 { top: 22%; right: 15%; font-size: 1rem; transform: rotate(10deg); animation-delay: 0.8s; }
+        .sc-4 { bottom: 20%; left: 12%; font-size: 1.3rem; transform: rotate(-25deg); animation-delay: 1.2s; }
+        
+        .profile-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 10px 15px rgba(255, 221, 230, 0.6));
+            animation: bounce 3s ease-in-out infinite;
+            z-index: 1;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .profile-title {
+            font-family: 'Mali', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-align: center;
+            z-index: 1;
+        }
+        
+        /* ปรับประโยคซิกเนเจอร์ให้ดูเก๋และเป็นระเบียบ */
+        .quote-badge {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            background: linear-gradient(135deg, #FFF9FA 0%, #FFEBF0 100%);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            display: inline-block;
+            border: 1px dashed var(--pastel-pink);
+            box-shadow: 0 4px 10px rgba(255, 221, 230, 0.3);
+            z-index: 1;
+        }
+
+        /* =========================================
+           BLOCK 2 & 3: Info Grid
+        ========================================= */
+        .grid-2-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px; /* เพิ่ม Spacing ตรงกลาง */
+        }
+
+        .block-half {
+            background-color: var(--bg-card);
+            border-radius: 30px;
+            padding: 30px 15px;
+            text-align: center;
+            box-shadow: var(--shadow-premium);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1 / 0.85;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .block-half:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+        .block-2:hover { border-color: var(--pastel-pink); background: #FFFAFB; }
+        .block-3:hover { border-color: var(--pastel-blue); background: #FAFDFF; }
+
+        .card-icon { 
+            font-size: 2.8rem; 
+            margin-bottom: 10px; 
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.05));
+        }
+        .card-text { 
+            font-family: 'Mali', cursive; 
+            font-weight: 700; 
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* =========================================
+           BLOCK 4, 5, 6: Long Menu Buttons
+        ========================================= */
+        .stack-long {
+            display: flex;
+            flex-direction: column;
+            gap: 18px; /* เพิ่ม Spacing แนวตั้ง */
+        }
+
+        .block-long {
+            background-color: var(--bg-card);
+            border-radius: 25px;
+            padding: 22px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* เปลี่ยนเป็นจัดกึ่งกลางให้ดูโล่ง */
+            position: relative;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-premium);
+            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .block-long:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .block-4:hover { border-color: var(--pastel-pink); }
+        .block-5:hover { border-color: var(--pastel-yellow); }
+        .block-6:hover { border-color: var(--pastel-blue); }
+
+        .menu-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1;
+        }
+
+        /* ปุ่มลูกศรแบบมินิมอลอยู่ริมขวา */
+        .btn-arrow {
+            position: absolute;
+            right: 25px;
+            width: 35px;
+            height: 35px;
+            background: var(--bg-page);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .block-long:hover .btn-arrow {
+            background: var(--text-main);
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        /* =========================================
+           BLOCK 7, 8, 9: Social Group (3 Lines Text)
+        ========================================= */
+        .social-group {
+            display: flex;
+            flex-direction: column; /* จัดเรียงเป็นแนวตั้ง 3 บรรทัด */
+            align-items: center;
+            gap: 15px; 
+            margin-top: 15px;
+        }
+
+        .social-text-btn {
+            width: 100%;
+            background-color: var(--bg-card);
+            border-radius: 25px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-premium);
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 2px solid transparent;
+        }
+
+        .social-text-btn:hover { 
+            transform: translateY(-5px) scale(1.01); 
+            box-shadow: var(--shadow-hover);
+        }
+        
+        /* เพิ่มสีแบรนด์และพื้นหลังพาสเทลตอนชี้ (Hover) */
+        .social-text-btn.fb:hover { 
+            border-color: #1877F2; 
+            color: #1877F2; 
+            background-color: #F0F7FF; 
+        }
+        .social-text-btn.ig:hover { 
+            border-color: #E1306C; 
+            color: #E1306C; 
+            background-color: #FFF0F5; 
+        }
+        .social-text-btn.line:hover { 
+            border-color: #00C300; 
+            color: #00C300; 
+            background-color: #F0FFF0; 
+        }
+
+        /* =========================================
+           BLOCK 10: Footer
+        ========================================= */
+        .block-10 {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .squiggly-text {
+            font-family: 'Mali', cursive;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-decoration-color: #FFB7C5;
+            text-underline-offset: 8px;
+            padding-bottom: 10px;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Cute Stars -->
+    <svg class="bg-star" style="top: 8%; left: 8%; width: 45px;" viewBox="0 0 100 100"><path d="M50 5 L63 38 L95 38 L69 58 L79 91 L50 72 L21 91 L31 58 L5 38 L37 38 Z" fill="#FFE1E8"/></svg>
+    <svg class="bg-star" style="top: 30%; right: -5%; width: 60px; animation-delay: 1.5s; opacity: 0.4;" viewBox="0 0 100 100"><path d="M50 5 L63 38 L95 38 L69 58 L79 91 L50 72 L21 91 L31 58 L5 38 L37 38 Z" fill="#FFF6C5"/></svg>
+    <svg class="bg-star" style="bottom: 20%; left: 2%; width: 50px; animation-delay: 3s;" viewBox="0 0 100 100"><path d="M50 5 L63 38 L95 38 L69 58 L79 91 L50 72 L21 91 L31 58 L5 38 L37 38 Z" fill="#E1F2FF"/></svg>
+
+    <div class="app-container">
+        
+        <!-- BLOCK 1 -->
+        <div class="block-1">
+            <div class="scattered-cherry sc-1">🍒</div>
+            <div class="scattered-cherry sc-2">🍒</div>
+            <div class="scattered-cherry sc-3">🍒</div>
+            <div class="scattered-cherry sc-4">🍒</div>
+            <div class="profile-icon">🍒</div>
+            <h1 class="profile-title">AOM JELLY</h1>
+            <div class="quote-badge">✨ เปิดรับคิว ✨</div>
+        </div>
+
+        <!-- BLOCK 2 & 3 -->
+        <div class="grid-2-3">
+            <a href="#" class="block-half block-2">
+                <span class="card-icon">📝</span>
+                <span class="card-text">เช็คคิวงาน</span>
+            </a>
+            <a href="#" class="block-half block-3">
+                <span class="card-icon">🎨</span>
+                <span class="card-text">ตัวอย่างงาน</span>
+            </a>
+        </div>
+
+        <!-- BLOCK 4, 5 -->
+        <div class="stack-long">
+            <a href="#" class="block-long block-4">
+                <div class="menu-text">🌸 บริการและเรทราคา</div>
+                <div class="btn-arrow">→</div>
+            </a>
+            <a href="#" class="block-long block-5">
+                <div class="menu-text">⭐ ข้อตกลงการรับงาน</div>
+                <div class="btn-arrow">→</div>
+            </a>
+        </div>
+
+        <!-- BLOCK 7, 8, 9 -->
+        <div class="social-group">
+            <a href="#" class="social-text-btn fb">Facebook</a>
+            <a href="#" class="social-text-btn ig">Instagram</a>
+            <a href="#" class="social-text-btn line">LINE</a>
+        </div>
+
+        <!-- BLOCK 10 -->
+        <div class="block-10">
+            <span class="squiggly-text">Thank you for visiting us! 💖</span>
+            <p class="copyright">&copy; 2026 Aom Jelly Studio.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+
+```
